@@ -6,16 +6,33 @@
 
     <parent>
         <groupId>com.url</groupId>
-        <artifactId>short-url</artifactId>
+        <artifactId>short-url-parent</artifactId>
         <version>0.0.2-SNAPSHOT</version>
     </parent>
 
     <groupId>org.short</groupId>
-    <artifactId>short-url-service</artifactId>
+    <artifactId>short-url-jpa-service</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

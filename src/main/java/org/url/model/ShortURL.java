@@ -1,10 +1,15 @@
 package org.url.model;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
-import org.springframework.data.redis.core.index.Indexed;
-import org.w3c.dom.Entity;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,15 +19,31 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@RedisHash("short_url")
+@Entity
+@Table(name = "short_url")
 public class ShortURL {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     private UUID id;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "expiry", nullable = false)
     private LocalDateTime expiry;
+
+    @Column(name = "distributed_id", nullable = false, unique = true)
     private Long distributedId;
+
+    @Column(name = "long_url")
     private String longURL;
-    @Indexed
+
+    @Column(name = "alias", nullable = false, unique = true)
     private String alias;
 
     @Override

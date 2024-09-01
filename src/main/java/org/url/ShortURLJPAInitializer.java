@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Log4j2
 @SpringBootApplication
-public class ShortURLInit {
+public class ShortURLJPAInitializer {
     public static void main(String[] args) {
-        SpringApplication.run(ShortURLInit.class, args);
+        SpringApplication.run(ShortURLJPAInitializer.class, args);
     }
 }
