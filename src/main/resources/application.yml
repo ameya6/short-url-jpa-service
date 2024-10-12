@@ -1,7 +1,14 @@
 server:
-  port: 10003
+  servlet:
+    context-path: /short-url-jpa-service
+  port: 10004
 
 spring:
+  threads:
+    virtual:
+      enabled: true
+  application:
+    name: short-url-jpa-service
   datasource:
     url: jdbc:postgresql://192.168.0.206:26257/url_shortner
     username: root
@@ -16,7 +23,36 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
-    show-sql: true
+    show-sql: false
 
-duid:
-  server: http://localhost:10001/
+---
+
+server:
+  servlet:
+    context-path: /short-url-jpa-service
+  port: 10004
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  threads:
+    virtual:
+      enabled: true
+  application:
+    name: short-url-jpa-service
+  datasource:
+    url: jdbc:postgresql://192.168.0.206:26257/url_shortner
+    username: root
+    password:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximumPoolSize: 5
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+    show-sql: false

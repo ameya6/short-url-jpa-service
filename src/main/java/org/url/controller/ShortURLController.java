@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.url.api.model.ShortURLDTO;
 import org.url.model.ShortURL;
 import org.url.service.ShortURLService;
 
@@ -18,14 +19,28 @@ public class ShortURLController {
     private ShortURLService shortURLService;
 
     @PostMapping("/create")
-    public ResponseEntity<ShortURL> create(@RequestBody ShortURL shortURL) {
-        shortURL = shortURLService.create(shortURL);
-        return ResponseEntity.ok(shortURL);
+    public ResponseEntity<ShortURLDTO> create(@RequestBody ShortURLDTO shortURLDTO) {
+        try {
+            shortURLDTO = shortURLService.create(shortURLDTO);
+            return ResponseEntity.ok(shortURLDTO);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(errorResponse(e));
+        }
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<ShortURL>> get() {
-        List<ShortURL> shortURLS = shortURLService.get();
-        return ResponseEntity.ok(shortURLS);
+    @GetMapping("/fetch/{alias}")
+    public ResponseEntity<ShortURLDTO> findByAlias(@PathVariable String alias) {
+        try {
+            ShortURLDTO shortURLDTO = shortURLService.findAbyAlias(alias);
+            return ResponseEntity.ok(shortURLDTO);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(errorResponse(e));
+        }
+    }
+
+    private ShortURLDTO errorResponse(Exception e) {
+        return ShortURLDTO.builder()
+                .message(e.getMessage())
+                .build();
     }
 }
